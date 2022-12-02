@@ -34,7 +34,7 @@ services:
     ports:
       - "9092:9092"
       - "29092:29092"
-      - '9093:9093'
+      - "9093:9093"
     depends_on:
       - zookeeper
     volumes:
