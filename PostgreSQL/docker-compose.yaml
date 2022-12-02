@@ -38,7 +38,7 @@ services:
     depends_on:
       - zookeeper
     volumes:
-      - /Users/ilkaycetindag/Desktop/py/chistadata-connector.py:/docker-entrypoint-initdb.d/chistadata-connector.py
+      - /Users/ilkaycetindag/Desktop/PostgreSQL/chistadata-connector.py:/docker-entrypoint-initdb.d/chistadata-connector.py
   clickhouse:
     image: clickhouse/clickhouse-server
     ports:
