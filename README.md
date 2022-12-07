@@ -1,6 +1,8 @@
 # Data-Archival-Project
 The repository contains all the details and codes  about the Data archival projects
 
+POSTGRESQL TO CLICKHOUSE 
+
 Requirements
 The wal_level setting must have a logical value and max_replication_slots parameter must have a value at least 2 in the PostgreSQL config file. 
 
