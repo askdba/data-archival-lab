@@ -54,7 +54,7 @@ Before applying docker-compose, we need to write our local IP which specifies th
       - /Users/ilkaycetindag/Desktop/PostgreSQL/chistadata-connector.py:/docker-entrypoint-initdb.d/chistadata-connector.py
       </code></pre>
       
-      After apply these steps, we can start our docker-compose file with “docker-compose up -d”
+  After apply these steps, we can start our docker-compose file with “docker-compose up -d”    
 
 <pre id="example"><code class="language-lang"  style="color: #333; background: #f8f8f8;"> 
 
