@@ -1,6 +1,33 @@
 # Data-Archival-Project
 The repository contains all the details and codes  about the Data archival projects
 
+This document provides the complete details about the Data archival project from Source databases to ClickHouse. It contains the following details.
+
+Overview
+Architecture and Components
+Implementation
+
+________________________________________________________________
+
+Overview:
+
+The data archival project is getting developed to perform the archival process from source database to ClickHouse. Currently, we are working on the following databases.
+
+MySQL to ClickHouse migration
+MariaDB to ClickHouse migration
+PostgreSQL to ClickHouse migration
+
+Aspects:
+
+The tool can migrate the existing data from source to destination
+The tool can perform the live streaming from source to destination. This can be used to perform the HA, Live analytics, Minimise the time for environment migration.
+Every component is dockerized and can be built using the docker-compose file.
+Easy to configure.
+
+
+Note:  1) The tool was just created and passed the initial testing. We have to develop this further and need to test with different scenarios before implementing on production. Based on the testing results, we can improve the tool further. 2) Few of the variables are hardcoded. We have to check the possibilities to make them as variables. 
+
+
 # POSTGRESQL TO CLICKHOUSE 
 
 Requirements
