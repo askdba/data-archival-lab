@@ -32,6 +32,7 @@ Easy to configure.
 Note:  1) The tool was just created and passed the initial testing. We have to develop this further and need to test with different scenarios before implementing on production. Based on the testing results, we can improve the tool further. 2) Few of the variables are hardcoded. We have to check the possibilities to make them as variables. 
 
 The architecture contains the following components
+<pre id="example"><code class="language-lang"  style="color: #333; background: #f8f8f8;"> 
 
 Source databases
 Debezium connector
@@ -48,7 +49,7 @@ Kafka: Kafka is primarily used to build real-time streaming data pipelines and a
 ChistaData Connector: It is being developed by ChistaData’s engineers. The tool can be used to apply the changes from Kafka topic to ClickHouse database.
 
 ClickHouse: ClickHouse is an open-source column-oriented DBMS (columnar database management system) for online analytical processing (OLAP) that allows users to generate analytical reports using SQL queries in real-time.
-
+</code></pre>
 
 
 # MYSQL TO CLICKHOUSE 
