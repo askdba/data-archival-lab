@@ -55,12 +55,13 @@ ClickHouse: ClickHouse is an open-source column-oriented DBMS (columnar database
 # MYSQL TO CLICKHOUSE 
 
 MySQL should be configured with the following variables.
-
+<pre id="example"><code class="language-lang"  style="color: #333; background: #f8f8f8;"> 
 log_bin ( enabled )
 server-id ( configured ) 
 binlog_format=row
 binlog_row_image=full
 Table should have the PRIMARY KEY to better work with ReplacingMergetree engine.
+</code></pre>
 
 <pre id="example"><code class="language-lang"  style="color: #333; background: #f8f8f8;"> 
 clone git repo
