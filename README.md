@@ -32,6 +32,199 @@ Easy to configure.
 
 Note:  1) The tool was just created and passed the initial testing. We have to develop this further and need to test with different scenarios before implementing on production. Based on the testing results, we can improve the tool further. 2) Few of the variables are hardcoded. We have to check the possibilities to make them as variables. 
 
+The architecture contains the following components
+
+Source databases
+Debezium connector
+Kafka
+ChistaData connector
+ClickHouse
+
+Source databases: It can be any database which supports Debezium. In our project, we are exploring the databases MySQL, MariaDB and PostgreSQL.
+
+Debezium connector: Debezium is a set of source connectors for Apache Kafka Connect. Each connector ingests changes from a different database by using that database's features for change data capture (CDC).
+
+Kafka: Kafka is primarily used to build real-time streaming data pipelines and applications that adapt to the data streams. It combines messaging, storage, and stream processing to allow storage and analysis of both historical and real-time data.
+
+ChistaData Connector: It is being developed by ChistaData’s engineers. The tool can be used to apply the changes from Kafka topic to ClickHouse database.
+
+ClickHouse: ClickHouse is an open-source column-oriented DBMS (columnar database management system) for online analytical processing (OLAP) that allows users to generate analytical reports using SQL queries in real-time.
+
+
+
+# MYSQL TO CLICKHOUSE 
+
+MySQL should be configured with the following variables.
+
+log_bin ( enabled )
+server-id ( configured ) 
+binlog_format=row
+binlog_row_image=full
+Table should have the PRIMARY KEY to better work with ReplacingMergetree engine.
+
+<pre id="example"><code class="language-lang"  style="color: #333; background: #f8f8f8;"> 
+clone git repo
+</code></pre>
+
+<pre id="example"><code class="language-lang"  style="color: #333; background: #f8f8f8;"> 
+2) Switch to MySQL folder
+</code></pre>
+
+<pre id="example"><code class="language-lang"  style="color: #333; background: #f8f8f8;"> 
+3) Run the “docker-compose.yml”
+
+docker-compose -f docker-compose.yml up
+
+Before running the docker-compose file, we need to update the EXTERNAL connection string using our own IP. ( Kafka component ) The reason is, a chistadata-connector needs to communicate with kafka using external IP as per the current implementation.
+
+  kafka:
+    image: 'bitnami/kafka:latest'
+    user: root
+    environment:
+      - KAFKA_BROKER_ID=1
+      - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
+      - ALLOW_PLAINTEXT_LISTENER=yes
+      - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CLIENT:PLAINTEXT,EXTERNAL:PLAINTEXT
+      - KAFKA_CFG_LISTENERS=CLIENT://:9092,EXTERNAL://:9093
+      - KAFKA_CFG_ADVERTISED_LISTENERS=CLIENT://kafka:9092,EXTERNAL://192.168.1.2:9093
+      - KAFKA_CFG_INTER_BROKER_LISTENER_NAME=CLIENT
+
+</code></pre>
+
+<pre id="example"><code class="language-lang"  style="color: #333; background: #f8f8f8;"> 
+4) Debezium connector configuration
+
+Execute the following command inside the “debezium” container to configure the connector.
+Note: Make sure to change the credentials and connection strings based on the environment.
+
+
+echo '{
+"name": "mysql-connector-1",
+"config": {
+"connector.class": "io.debezium.connector.mysql.MySqlConnector",
+"snapshot.locking.mode": "none",
+"tasks.max": "1",
+"database.history.kafka.topic": "schema-changes.mysql",
+"database.whitelist": "test",
+"database.user": "root",
+"database.server.id": "1",
+"database.server.name": "mysql1",
+"database.port": "3306",
+"topic.prefix": "mysql1",
+"database.hostname": "mysql",
+"database.password": "root",
+"snapshot.mode": "initial",
+"key.converter": "org.apache.kafka.connect.json.JsonConverter",
+"value.converter": "org.apache.kafka.connect.json.JsonConverter",
+"key.converter.schemas.enable": "false",
+"value.converter.schemas.enable": "false",
+"internal.key.converter": "org.apache.kafka.connect.json.JsonConverter",
+"internal.value.converter": "org.apache.kafka.connect.json.JsonConverter",
+"database.history.kafka.bootstrap.servers": "mysql-kafka-1:9092",
+"schema.history.internal.kafka.topic": "mysql1",
+"schema.history.internal.kafka.bootstrap.servers": "mysql-kafka-1:9092",
+"internal.key.converter.schemas.enable": "false",
+"internal.value.converter.schemas.enable": "false"
+}
+}' > debezium.json
+
+
+curl -H 'Content-Type: application/json' debezium:8083/connectors --data "@debezium.json"
+
+
+</code></pre>
+
+
+<pre id="example"><code class="language-lang"  style="color: #333; background: #f8f8f8;"> 
+5) Verify the streaming inside the Kafka container
+
+The following commands can be used to check the topic and the messages inside the kafka container.
+
+/opt/bitnami/kafka/bin/kafka-topics.sh --bootstrap-server localhost:9092  --list
+
+/opt/bitnami/kafka/bin/kafka-console-consumer.sh  --bootstrap-server localhost:9092  --topic mysql1.test.chista --from-beginning
+
+Update the topic name.
+
+</code></pre>
+
+
+
+<pre id="example"><code class="language-lang"  style="color: #333; background: #f8f8f8;"> 
+6) Table creation:
+
+Table has to be manually created on ClickHouse using the ReplacingMergeTree engine. For example,
+
+MySQL:
+
+CREATE TABLE `chista` (
+  `id` int NOT NULL,
+  `name` varchar(16) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+
+ClickHouse:
+
+CREATE TABLE IF NOT EXISTS default.chista
+(
+id Int32,
+name String
+)
+ENGINE = ReplacingMergeTree
+ORDER BY id;
+
+</code></pre>
+
+
+
+<pre id="example"><code class="language-lang"  style="color: #333; background: #f8f8f8;"> 
+7) Build the docker image for chistadata-connector
+
+We already have the dockerfile in the repo. 
+
+sakthivel@Sris-MacBook-Pro MySQL % cat dockerfile 
+FROM python:3.9
+ADD requirements.txt /
+RUN pip install -r requirements.txt
+RUN pip install kafka-python
+ADD chistadata-connector.py /
+CMD [ "python", "./chistadata-connector.py" ]
+
+The docker-connector.py needs the following modifications.
+
+consumer = KafkaConsumer('mysql1.test.chista',   
+                         bootstrap_servers=['192.168.1.2:9093'],
+                         auto_offset_reset='earliest',
+                         group_id='my-group',
+                         enable_auto_commit=False)
+
+client = Client(host='192.168.1.2', port=8002)
+
+....
+....
+
+
+            client.execute('INSERT INTO default.chista (id,name) VALUES',
+                           data)       
+            print(data)
+        elif dat['op'] == 'd':
+
+            client.execute(f"alter table default.chista delete where id = {data[0]['id']}")
+            print(data)
+
+
+After modifying the topic name and connection details, Just execute the following command to build the image.
+
+docker build -t dockerfile:latest .
+docker run dockerfile:latest
+
+When we run the “docker run” command, it will start the container and start to apply the messages on ClickHouse from kafka topic.
+
+
+</code></pre>
+
+
+
 
 # POSTGRESQL TO CLICKHOUSE 
 
