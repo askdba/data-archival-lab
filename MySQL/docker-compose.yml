@@ -20,9 +20,8 @@ services:
     image: confluentinc/cp-zookeeper:5.5.3
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
-
   kafka:
-    image: 'bitnami/kafka:latest'
+    image: ‘bitnami/kafka:latest’
     user: root
     environment:
       - KAFKA_BROKER_ID=1
@@ -30,22 +29,21 @@ services:
       - ALLOW_PLAINTEXT_LISTENER=yes
       - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CLIENT:PLAINTEXT,EXTERNAL:PLAINTEXT
       - KAFKA_CFG_LISTENERS=CLIENT://:9092,EXTERNAL://:29092
-      - KAFKA_CFG_ADVERTISED_LISTENERS=CLIENT://kafka:9092,EXTERNAL://localhost:29092
+      - KAFKA_CFG_ADVERTISED_LISTENERS=CLIENT://kafka:9092,EXTERNAL://192.168.1.64:29092
       - KAFKA_CFG_INTER_BROKER_LISTENER_NAME=CLIENT
     ports:
-      - "9092:9092"
-      - "29092:29092"
-      - '9093:9093'
+      - “9092:9092”
+      - “29092:29092"
+      - ‘9093:9093’
     depends_on:
       - zookeeper
     volumes:
-      - /Users/sakthivel/chista/chistadata-connector.py:/docker-entrypoint-initdb.d/chistadata-connector.py 
-
+      - /Users/ilkaycetindag/Desktop/Data-Archival-Project-mainsss/chistadata-connector.py:/docker-entrypoint-initdb.d/chistadata-connector.py
   clickhouse:
     image: clickhouse/clickhouse-server
     ports:
-      - "8002:9000"
-      - "9123:8123"
+      - “8002:9000”
+      - “9123:8123"
     ulimits:
       nproc: 65535
       nofile:
@@ -55,7 +53,7 @@ services:
   debezium:
     image: debezium/connect
     ports:
-      - "8083:8083"
+      - “8083:8083”
     environment:
       - BOOTSTRAP_SERVERS=kafka:9092
       - GROUP_ID=1
@@ -63,4 +61,3 @@ services:
       - OFFSET_STORAGE_TOPIC=my_connect_offsets
       - STATUS_STORAGE_TOPIC=my_connect_statuses
     depends_on: [zookeeper, kafka]
-    
