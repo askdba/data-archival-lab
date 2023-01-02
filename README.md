@@ -8,6 +8,7 @@ Architecture and Components
 Implementation
 
 
+<img width="631" alt="Screenshot 2023-01-02 at 23 10 36" src="https://user-images.githubusercontent.com/46593013/210274619-f7e39608-d36b-4508-bbe9-74d05136c8b9.png">
 
 Overview:
 
