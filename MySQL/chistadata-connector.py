@@ -11,7 +11,7 @@ from kafka import KafkaProducer
 import json
 from clickhouse_driver import Client
 
-consumer = KafkaConsumer('mysql.test.chista',
+consumer = KafkaConsumer('mysql1',
                          bootstrap_servers=['192.168.1.4:29092'],
                          auto_offset_reset='earliest',
                          group_id='my-group',
