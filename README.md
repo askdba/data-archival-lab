@@ -78,6 +78,8 @@ docker-compose -f docker-compose.yml up
 
 Before running the docker-compose file, we need to update the EXTERNAL connection string using our own IP. ( Kafka component ) The reason is, a chistadata-connector needs to communicate with kafka using external IP as per the current implementation.
 
+Also change user directory in Kafka volume
+
 version: "3.9"
 services:
   mysql:
