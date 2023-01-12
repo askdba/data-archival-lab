@@ -78,6 +78,28 @@ docker-compose -f docker-compose.yml up
 
 Before running the docker-compose file, we need to update the EXTERNAL connection string using our own IP. ( Kafka component ) The reason is, a chistadata-connector needs to communicate with kafka using external IP as per the current implementation.
 
+version: "3.9"
+services:
+  mysql:
+    container_name: mysql
+    image: docker.io/bitnami/mysql:latest
+    restart: "no"
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=test
+      - ALLOW_EMPTY_PASSWORD=yes
+    healthcheck:
+      test: [ 'CMD', '/opt/bitnami/scripts/mysql/healthcheck.sh' ]
+      interval: 15s
+      timeout: 5s
+      retries: 6
+ 
+  zookeeper:
+    image: confluentinc/cp-zookeeper:5.5.3
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
   kafka:
     image: 'bitnami/kafka:latest'
     user: root
@@ -87,8 +109,40 @@ Before running the docker-compose file, we need to update the EXTERNAL connectio
       - ALLOW_PLAINTEXT_LISTENER=yes
       - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CLIENT:PLAINTEXT,EXTERNAL:PLAINTEXT
       - KAFKA_CFG_LISTENERS=CLIENT://:9092,EXTERNAL://:9093
-      - KAFKA_CFG_ADVERTISED_LISTENERS=CLIENT://kafka:9092,EXTERNAL://192.168.1.2:9093
+      - KAFKA_CFG_ADVERTISED_LISTENERS=CLIENT://192.168.1.188:9092,EXTERNAL://192.168.1.188:9093
       - KAFKA_CFG_INTER_BROKER_LISTENER_NAME=CLIENT
+    ports:
+      - "9092:9092"
+      - "29092:29092"
+      - "9093:9093"
+    depends_on:
+      - zookeeper
+    volumes:
+      - /Users/emrahidman/ClickHouseArchival/Data-Archival-Project-main/MySQL/chistadata-connector.py:/docker-entrypoint-initdb.d/chistadata-connector.py
+  clickhouse:
+    image: clickhouse/clickhouse-server
+    ports:
+      - "8002:9000"
+      - "9123:8123"
+    ulimits:
+      nproc: 65535
+      nofile:
+        soft: 262144
+        hard: 262144
+    depends_on: [zookeeper, kafka]
+  debezium:
+    image: debezium/connect:2.0.0.Final
+    ports:
+      - "8083:8083"
+    environment:
+      - BOOTSTRAP_SERVERS=192.168.1.188:9092
+      - GROUP_ID=1
+      - CONFIG_STORAGE_TOPIC=my_connect_configs
+      - OFFSET_STORAGE_TOPIC=my_connect_offsets
+      - STATUS_STORAGE_TOPIC=my_connect_statuses
+    depends_on: [zookeeper, kafka]
+
+
 
 </code></pre>
 
@@ -157,6 +211,11 @@ Update the topic name.
 Table has to be manually created on ClickHouse using the ReplacingMergeTree engine. For example,
 
 MySQL:
+
+Connect MySQL
+
+mysql -u root -p
+password: root
 
 CREATE TABLE `chista` (
   `id` int NOT NULL,
