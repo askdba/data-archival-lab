@@ -17,28 +17,28 @@ services:
     volumes:
       - ./scripts:/docker-entrypoint-initdb.d
   zookeeper:
-    image: confluentinc/cp-zookeeper:5.5.3
+    image: confluentinc/cp-zookeeper:latest
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
+    ports:
+      - "2181:2181"
   kafka:
-    image: 'bitnami/kafka:latest'
+    image: 'confluentinc/cp-kafka:latest'
     user: root
     environment:
-      - KAFKA_BROKER_ID=1
-      - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
-      - ALLOW_PLAINTEXT_LISTENER=yes
-      - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CLIENT:PLAINTEXT,EXTERNAL:PLAINTEXT
-      - KAFKA_CFG_LISTENERS=CLIENT://:9092,EXTERNAL://:9093
-      - KAFKA_CFG_ADVERTISED_LISTENERS=CLIENT://kafka:9092,EXTERNAL://YOUR_LOCAL_IP:9093
-      - KAFKA_CFG_INTER_BROKER_LISTENER_NAME=CLIENT
+      - KAFKA_BROKER_ID= 1
+      - KAFKA_ZOOKEEPER_CONNECT= zookeeper:2181
+      - KAFKA_ADVERTISED_LISTENERS= PLAINTEXT://kafka:9092,PLAINTEXT_HOST://localhost:9093
+      - KAFKA_LISTENER_SECURITY_PROTOCOL_MAP= PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      - KAFKA_INTER_BROKER_LISTENER_NAME= PLAINTEXT
+      - KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR= 1
     ports:
       - "9092:9092"
-      - "29092:29092"
       - "9093:9093"
     depends_on:
       - zookeeper
     volumes:
-      - /Users/YOUR_COMPUTER_NAME/Desktop/PostgreSQL/chistadata-connector.py:/docker-entrypoint-initdb.d/chistadata-connector.py
+      - /Users/ilkaycetindag/Desktop/Data-Archival-Project-main/PostgreSQL/chistadata-connector.py:/docker-entrypoint-initdb.d/chistadata-connector.py
   clickhouse:
     image: clickhouse/clickhouse-server
     ports:
