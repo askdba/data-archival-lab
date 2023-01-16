@@ -12,7 +12,7 @@ import json
 from clickhouse_driver import Client
 
 consumer = KafkaConsumer('mysql1.test.chista',
-                         bootstrap_servers=['192.168.1.4:29092'],
+                         bootstrap_servers=['192.168.1.4:9093'],
                          auto_offset_reset='earliest',
                          group_id='my-group',
                          enable_auto_commit=False,api_version='0.10.0')
