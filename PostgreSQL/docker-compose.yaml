@@ -29,7 +29,7 @@ services:
       - ALLOW_PLAINTEXT_LISTENER=yes
       - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CLIENT:PLAINTEXT,EXTERNAL:PLAINTEXT
       - KAFKA_CFG_LISTENERS=CLIENT://:9092,EXTERNAL://:9093
-      - KAFKA_CFG_ADVERTISED_LISTENERS=CLIENT://192.168.1.188:9092,EXTERNAL://192.168.1.188:9093
+      - KAFKA_CFG_ADVERTISED_LISTENERS=CLIENT://192.168.1.16:9092,EXTERNAL://192.168.1.16:9093
       - KAFKA_CFG_INTER_BROKER_LISTENER_NAME=CLIENT
     ports:
       - "9092:9092"
@@ -56,9 +56,11 @@ services:
     ports:
       - "8083:8083"
     environment:
-      - BOOTSTRAP_SERVERS=192.168.1.188:9092
+      - BOOTSTRAP_SERVERS=192.168.1.16:9092
       - GROUP_ID=1
       - CONFIG_STORAGE_TOPIC=my_connect_configs
       - OFFSET_STORAGE_TOPIC=my_connect_offsets
       - STATUS_STORAGE_TOPIC=my_connect_statuses
     depends_on: [zookeeper, kafka]
+    volumes:
+      - ~/Documents/GitHub/Data-Archival-Project-main/PostgreSQL/debezium.json:/docker-entrypoint-initdb.d/debezium.json
