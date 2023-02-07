@@ -71,7 +71,7 @@ After apply these steps, we can start our docker-compose file with “docker-com
 
 <pre id="example"><code class="language-lang"  style="color: #333; background: #f8f8f8;"> 
 ➜  MySQl docker-compose up -d                  
-[+] Running 6/6
+[+] 
 debezium/connect:latest
 clickhouse/clickhouse-server:latest
 confluentinc/cp-kafka:latest
@@ -172,6 +172,8 @@ use default
 
 select * from chista;
 </code></pre
+
+
 
 # POSTGRESQL TO CLICKHOUSE 
 
