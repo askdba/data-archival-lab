@@ -69,7 +69,7 @@ Docker-compose.yml - Docker components configuration. Debezium.json - Debezium c
 Run the “docker-compose.yml”
 After apply these steps, we can start our docker-compose file with “docker-compose up -d”
 
-
+<pre id="example"><code class="language-lang"  style="color: #333; background: #f8f8f8;"> 
 ➜  MySQl docker-compose up -d                  
 [+] Running 6/6
 debezium/connect:latest
@@ -78,10 +78,19 @@ confluentinc/cp-kafka:latest
 confluentinc/cp-zookeeper:latest 
 debezium/mysql:14
 cansayin/python:latest
+</code></pre>
+
+
+
 
 To start CDC process, create Kafka Topic and apply this one on Debezium side this debezium.json
 
+<pre id="example"><code class="language-lang"  style="color: #333; background: #f8f8f8;"> 
 curl -H 'Content-Type: application/json' debezium:8083/connectors --data "@debezium.json"
+</code></pre>
+
+
+
 All configurations set for shipment_db in PostgreSQL side. If you want to learn more detail about postgreSQL information, or if you want to migrate another table to Kafka, you can edit the debezium.json file in the Debezium container. If necessary, we can use the “*” option to migrate all tables instead of one table name.
 
 Create a table and insert some data to the MySQL
@@ -128,11 +137,20 @@ ORDER BY id;
 With this command, we created the kafka topic which name is “mysql.test.chista” To check and validate this, need to connect kafka container and list the all topics:
 
 
+<pre id="example"><code class="language-lang"  style="color: #333; background: #f8f8f8;"> 
+
 /usr/bin/kafka-topics --list  --bootstrap-server kafka:9092
+</code></pre>
+
+
 To see the messages on Kafka Topic, we need to read the messages. So when we manipulate the source db, it should be shown on the Kafka Topic as messages after the installed configuration. Messages can read with:
 
- 
+<pre id="example"><code class="language-lang"  style="color: #333; background: #f8f8f8;"> 
+
 /usr/bin/kafka-console-consumer  --bootstrap-server kafka:9092  --topic mysql.test.chista --from-beginning
+
+</code></pre>
+
 For example I’ll insert some data on the MySQL side and should see these new messages on the Kafka Topic side. After the Topic is created, we can see the new messages only. That means you couldn't see the old data in messages which were on the PostgreSQL side. Only new insert/update/delete operations (op: c, op:u and op:d) migrated to the Kafka Topic side.
 
 
@@ -144,7 +162,16 @@ python3 chistadata-connector.py
 According to operation names (op: c, op: u and op: d), python side will apply the changes to ClickHouse side. When we check the ClickHouse side, data should be see:
 
 
+Now you can connect to clickhouse and check the data
 
+
+<pre id="example"><code class="language-lang"  style="color: #333; background: #f8f8f8;"> 
+clickhouse-client
+
+use default
+
+select * from chista;
+</code></pre
 
 
 # POSTGRESQL TO CLICKHOUSE 
