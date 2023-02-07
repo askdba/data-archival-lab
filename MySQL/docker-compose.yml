@@ -15,48 +15,51 @@ services:
       interval: 15s
       timeout: 5s
       retries: 6
- 
   zookeeper:
-    image: confluentinc/cp-zookeeper:5.5.3
+    image: confluentinc/cp-zookeeper:latest
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
+    ports:
+      - 2181:2181
   kafka:
-    image: 'bitnami/kafka:latest'
+    image: confluentinc/cp-kafka:latest
     user: root
     environment:
       - KAFKA_BROKER_ID=1
       - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
-      - KAFKA_ADVERTISED_LISTENERS= PLAINTEXT://kafka:9092,PLAINTEXT_HOST://localhost:9093
+      - KAFKA_ADVERTISED_LISTENERS= PLAINTEXT://mysql-kafka-1:9092,PLAINTEXT_HOST://localhost:9093
       - KAFKA_LISTENER_SECURITY_PROTOCOL_MAP=PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
       - KAFKA_INTER_BROKER_LISTENER_NAME=PLAINTEXT
       - KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=1
     ports:
-      - "9092:9092"
-      - "29092:29092"
-      - "9093:9093"
-    depends_on:
-      - zookeeper
-    volumes:
-      - /Users/emrahidman/ClickHouseArchival/Data-Archival-Project-main/MySQL/chistadata-connector.py:/docker-entrypoint-initdb.d/chistadata-connector.py
+      - 9092:9092
+      - 9093:9093
+    depends_on: [zookeeper]
   clickhouse:
-    image: clickhouse/clickhouse-server
+    image: clickhouse/clickhouse-server:latest
     ports:
-      - "8002:9000"
-      - "9123:8123"
+      - 9000:9000
+      - 9123:8123
     ulimits:
       nproc: 65535
       nofile:
         soft: 262144
         hard: 262144
+    volumes:
+      - ~/Documents/GitHub/Data-Archival-Project/MySQL/config.xml:/etc/clickhouse-server/config.xml
     depends_on: [zookeeper, kafka]
   debezium:
-    image: debezium/connect:2.0.0.Final
+    image: debezium/connect:latest
     ports:
-      - "8083:8083"
+      - 8083:8083
     environment:
-      - BOOTSTRAP_SERVERS=192.168.1.188:9092
+      - BOOTSTRAP_SERVERS=mysql-kafka-1:9092
       - GROUP_ID=1
       - CONFIG_STORAGE_TOPIC=my_connect_configs
       - OFFSET_STORAGE_TOPIC=my_connect_offsets
       - STATUS_STORAGE_TOPIC=my_connect_statuses
     depends_on: [zookeeper, kafka]
+    volumes:
+      - ~/Documents/GitHub/Data-Archival-Project/MySQL/debezium.json:/kafka/debezium.json
+  python:
+    image: cansayin/python:latest
