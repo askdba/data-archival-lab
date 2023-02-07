@@ -178,6 +178,158 @@ select * from chista;
 </code></pre
 
 
+# POSTGRESQL TO CLICKHOUSE 
+
+PostgreSQL Implementation:
+Requirements
+The wal_level setting must have a logical value and max_replication_slots parameter must have a value at least 2 in the PostgreSQL config file. 
+
+Each replicated table must have one of the following replica identity:
+primary key (by default)
+index
+
+So we decided to use Debezium PostgreSQL image for these requirements on the docker-compose. These settings are configured by default on this version.
+
+1) Clone the GIT repo 
+
+https://github.com/ChistaDATA/Data-Archival-Project.git
+
+
+2) Choose PostgreSQL
+
+So we should have these components
+
+Docker-compose.yml - Docker components configuration. 
+Debezium.json - Debezium components configuration for source db.
+Config.xml - To allow ClickHouse external connections.
+
+3) Run the “docker-compose.yml”
+
+After apply these steps, we can start our docker-compose file with “docker-compose up -d”
+
+<pre id="example"><code class="language-lang"  style="color: #333; background: #f8f8f8;">
+➜  PostgreSQL docker-compose up -d                  
+[+] Running 6/6
+debezium/connect:latest
+clickhouse/clickhouse-server:latest
+confluentinc/cp-kafka:latest
+confluentinc/cp-zookeeper:latest 
+debezium/postgres:14
+ihsnlky/python:latest
+</code></pre>
+
+4) To start CDC process, create Kafka Topic and apply this one on Debezium side this debezium.json
+<pre id="example"><code class="language-lang"  style="color: #333; background: #f8f8f8;">
+curl -H 'Content-Type: application/json' debezium:8083/connectors --data "@debezium.json"
+</code></pre>
+
+All configurations set for shipment_db in PostgreSQL side. If you want to learn more detail about postgreSQL information, or if you want to migrate another table to Kafka, you can edit the debezium.json file in the Debezium container. If necessary, we can use the “*” option to migrate all tables instead of one table name.
+
+5) Create a table and insert some data to the PostgreSQL
+
+After all of the components are created, we need to connect PostgreSQL side and create the table which name is shipments and insert some data: 
+<pre id="example"><code class="language-lang"  style="color: #333; background: #f8f8f8;">
+root@874d7d8b47fc:/# su - postgres
+postgres@874d7d8b47fc:~$ psql -U postgresuser -d shipment_db
+</code></pre>
+
+Then;
+<pre id="example"><code class="language-lang"  style="color: #333; background: #f8f8f8;">
+CREATE TABLE IF NOT EXISTS shipments
+(
+    shipment_id bigint NOT NULL,
+    order_id bigint NOT NULL,
+    date_created character varying(255) COLLATE pg_catalog."default",
+    status character varying(25) COLLATE pg_catalog."default",
+    CONSTRAINT shipments_pkey PRIMARY KEY (shipment_id)
+);
+
+INSERT INTO shipments values (30500,10500,'2021-01-21','COMPLETED');
+</code></pre>
+6) Checking the Kafka Topic to have messages
+
+So we can connect the Kafka container now:
+
+With this command, we created the kafka topic which name is “shipments.public.shipment”
+To check and validate this, need to connect kafka container and list the all topics:
+<pre id="example"><code class="language-lang"  style="color: #333; background: #f8f8f8;">
+/usr/bin/kafka-topics --list  --bootstrap-server kafka:9092
+</code></pre>
+
+To see the messages on Kafka Topic, we need to read the messages. So when we manipulate the source db, it should be shown on the Kafka Topic as messages after the installed configuration.
+Messages can read with:
+<pre id="example"><code class="language-lang"  style="color: #333; background: #f8f8f8;"> 
+/usr/bin/kafka-console-consumer  --bootstrap-server kafka:9092  --topic shipment.public.shipments --from-beginning
+</code></pre>
+For example I’ll insert some data on the PostgreSQL side and should see these new messages on the Kafka Topic side. After the Topic is created, we can see the new messages only. That means you couldn't see the old data in messages which were on the PostgreSQL side. Only new insert/update/delete operations (op: c, op:u and op:d) migrated to the Kafka Topic side.
+
+Table is created on the ClickHouse side manually.So we should see new messages like “op: c” on the Kafka Topic side after this operation.
+
+Now we clearly migrate the data PostgreSQL to Kafka until now. And now we need to create ClickHouse table to migrate:
+
+7) Creating the table on ClickHouse side
+
+<pre id="example"><code class="language-lang"  style="color: #333; background: #f8f8f8;"> 
+clickhouse-client
+
+CREATE TABLE IF NOT EXISTS default.kafka_table
+(
+    `shipment_id` UInt64,
+    `order_id` UInt64,
+    `date_created` String,
+    `status` String
+)
+ENGINE = ReplacingMergeTree
+ORDER BY shipment_id;
+</code></pre>
+
+
+
+8) Connect the Python side and run the python script
+
+<pre id="example"><code class="language-lang"  style="color: #333; background: #f8f8f8;"> 
+python3 chistadata-connector.py
+</code></pre>
+
+According to operation names (op: c, op: u and op: d), python side will apply the changes to ClickHouse side.
+When we check the ClickHouse side, data should be see:
+
+
+
+9) Deleting data from PostgreSQL (optional - experimental)
+
+Deleting the data which is migrated to the ClickHouse already:
+
+<pre id="example"><code class="language-lang"  style="color: #333; background: #f8f8f8;"> 
+#primary key: shipment_id
+#psql_table name: shipments
+#ch_table name: kafka_table
+
+#!/bin/bash
+clear
+
+#PostgreSQL side
+
+psql -U postgresuser -t -A -F","  -d shipment_db -c "SELECT md5(CAST((${primary_key})AS text)) FROM ${psql_table}" -o /a.txt
+
+#ClickHouse side
+
+clickhouse-client --send_logs_level none --query "select lower(hex(MD5(toString(${primary_key})))) from ${ch_table};" >b.txt
+
+#Specified the data hashes which existed only on the PostgreSQL side according to primary key hashes. All text files should be in one location only. It gives us data only on the PostgreSQL side.
+
+diff a.txt b.txt --new-line-format="" --old-line-format="%L" --unchanged-line-format="" > c.txt
+
+#We need some editing and after that, we can delete the data from the PostgreSQL side according to the hashes. Before this process, I need to stop the debezium side of course. So that means, we need to create a Kafka Topic for each table. We’ll delete all the data except the data in PostgreSQL only from the PostgreSQL side.
+
+sed -i "s/^/'/;s/$/'/" /tmp/c.txt
+sed -i '$!s/$/,/' /tmp/c.txt
+to_rem=`cat /tmp/c.txt`
+delete from $psql_table where $primary_key not in ( select $primary_key from $psql_table where md5(CAST(($primary_key)AS text)) IN ($to_rem));
+
+
+</code></pre>
+
 
 
 
