@@ -58,15 +58,15 @@ Each replicated table must have one of the following replica identity: primary k
 
 So we decided to use Debezium MySQL image for these requirements on the docker-compose. These settings are configured by default on this version.
 
-Clone the GIT repo
+1- Clone the GIT repo
 https://github.com/ChistaDATA/Data-Archival-Project.git
 
-Choose PostgreSQL
+Choose MySQL
 So we should have these components
 
 Docker-compose.yml - Docker components configuration. Debezium.json - Debezium components configuration for source db. Config.xml - To allow ClickHouse external connections.
 
-Run the “docker-compose.yml”
+2- Run the “docker-compose.yml”
 After apply these steps, we can start our docker-compose file with “docker-compose up -d”
 
 <pre id="example"><code class="language-lang"  style="color: #333; background: #f8f8f8;"> 
@@ -83,7 +83,7 @@ cansayin/python:latest
 
 
 
-To start CDC process, create Kafka Topic and apply this one on Debezium side this debezium.json
+3- To start CDC process, create Kafka Topic and apply this one on Debezium side this debezium.json
 
 <pre id="example"><code class="language-lang"  style="color: #333; background: #f8f8f8;"> 
 curl -H 'Content-Type: application/json' debezium:8083/connectors --data "@debezium.json"
@@ -93,7 +93,7 @@ curl -H 'Content-Type: application/json' debezium:8083/connectors --data "@debez
 
 All configurations set for shipment_db in PostgreSQL side. If you want to learn more detail about postgreSQL information, or if you want to migrate another table to Kafka, you can edit the debezium.json file in the Debezium container. If necessary, we can use the “*” option to migrate all tables instead of one table name.
 
-Create a table and insert some data to the MySQL
+4 - Create a table and insert some data to the MySQL
 
 After all of the components are created, we need to connect MySQL side and create the table which name is shipments and insert some data:
 
@@ -134,7 +134,7 @@ ORDER BY id;
 
 </code></pre>
 
-With this command, we created the kafka topic which name is “mysql.test.chista” To check and validate this, need to connect kafka container and list the all topics:
+5- With this command, we created the kafka topic which name is “mysql.test.chista” To check and validate this, need to connect kafka container and list the all topics:
 
 
 <pre id="example"><code class="language-lang"  style="color: #333; background: #f8f8f8;"> 
@@ -155,14 +155,14 @@ For example I’ll insert some data on the MySQL side and should see these new m
 
 
  
-<pre id="example"><code class="language-lang"  style="color: #333; background: #f8f8f8;"> 
+6 - <pre id="example"><code class="language-lang"  style="color: #333; background: #f8f8f8;"> 
 python3 chistadata-connector.py
 </code></pre>
 
 According to operation names (op: c, op: u and op: d), python side will apply the changes to ClickHouse side. When we check the ClickHouse side, data should be see:
 
 
-Now you can connect to clickhouse and check the data
+7- Now you can connect to clickhouse and check the data
 
 
 <pre id="example"><code class="language-lang"  style="color: #333; background: #f8f8f8;"> 
@@ -172,7 +172,6 @@ use default
 
 select * from chista;
 </code></pre
-
 
 # POSTGRESQL TO CLICKHOUSE 
 
