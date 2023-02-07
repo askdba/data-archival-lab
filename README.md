@@ -159,7 +159,9 @@ For example I’ll insert some data on the MySQL side and should see these new m
 
 
  
-6 - <pre id="example"><code class="language-lang"  style="color: #333; background: #f8f8f8;"> 
+6 - Connect to python container and run the following command to start chistada connector
+
+<pre id="example"><code class="language-lang"  style="color: #333; background: #f8f8f8;"> 
 python3 chistadata-connector.py
 </code></pre>
 
