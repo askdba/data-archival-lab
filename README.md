@@ -91,6 +91,13 @@ cansayin/python:latest
 
 <pre id="example"><code class="language-lang"  style="color: #333; background: #f8f8f8;"> 
 curl -H 'Content-Type: application/json' debezium:8083/connectors --data "@debezium.json"
+
+
+Then you will have an output like this. Please wait a couple of minutes to run the command above. Otherwise you will get an error because mysql didnt startup yet.
+
+{"name":"mysql-connector-1","config":{"connector.class":"io.debezium.connector.mysql.MySqlConnector","snapshot.locking.mode":"none","tasks.max":"1","database.whitelist":"test","database.user":"root","database.server.id":"1","database.server.name":"mysql","database.port":"3306","topic.prefix":"mysql","database.hostname":"mysql","database.password":"root","snapshot.mode":"initial","key.converter":"org.apache.kafka.connect.json.JsonConverter","value.converter":"org.apache.kafka.connect.json.JsonConverter","key.converter.schemas.enable":"false","value.converter.schemas.enable":"false","internal.key.converter":"org.apache.kafka.connect.json.JsonConverter","internal.value.converter":"org.apache.kafka.connect.json.JsonConverter","database.history.kafka.bootstrap.servers":"mysql-kafka-1:9092","schema.history.internal.kafka.topic":"mysql1","schema.history.internal.kafka.bootstrap.servers":"mysql-kafka-1:9092","internal.key.converter.schemas.enable":"false","internal.value.converter.schemas.enable":"false","name":"mysql-connector-1"},"tasks":[],"type":"source"}
+
+
 </code></pre>
 
 
@@ -110,8 +117,11 @@ MySQL:
 
 Connect MySQL
 
+
 mysql -u root -p
 password: root
+
+use test;
 
 CREATE TABLE `chista` (
   `id` int NOT NULL,
