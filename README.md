@@ -194,7 +194,7 @@ python3 chistadata-connector.py
 According to operation names (op: c, op: u and op: d), python side will apply the changes to ClickHouse side. When we check the ClickHouse side, data should be see:
 
 
-8- Now you can connect to clickhouse and check the data
+8- Now you can connect to ClickHouse container and check the data
 <pre id="example"><code class="language-lang"  style="color: #333; background: #f8f8f8;"> 
 clickhouse-client
 
