@@ -63,7 +63,7 @@ So we decided to use Debezium MySQL image for these requirements on the docker-c
 
 1- Clone the GIT repo
 
-Create GitHub folder in Documents and clone repe in it.
+Create GitHub folder in Documents and clone repo in it.
 <pre id="example"><code class="language-lang"  style="color: #333; background: #f8f8f8;"> 
 
 git clone https://github.com/ChistaDATA/Data-Archival-Project.git
@@ -209,9 +209,14 @@ index
 
 So we decided to use Debezium PostgreSQL image for these requirements on the docker-compose. These settings are configured by default on this version.
 
-1) Clone the GIT repo 
+1- Clone the GIT repo
 
-https://github.com/ChistaDATA/Data-Archival-Project.git
+Create GitHub folder in Documents and clone repo in it.
+<pre id="example"><code class="language-lang"  style="color: #333; background: #f8f8f8;"> 
+
+git clone https://github.com/ChistaDATA/Data-Archival-Project.git
+
+</code></pre>
 
 
 2) Choose PostgreSQL
