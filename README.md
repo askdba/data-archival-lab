@@ -135,14 +135,14 @@ CREATE TABLE `chista` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB;
 
-Insert data into MySQL
+## Insert data into MySQL
 
 insert into chista values (47,"can");
 
 
-Just create table in clickhouse
+## Just create table in clickhouse
 
-ClickHouse:
+## ClickHouse:
 
 CREATE TABLE IF NOT EXISTS default.chista
 (
