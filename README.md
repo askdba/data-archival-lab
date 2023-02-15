@@ -112,7 +112,7 @@ All configurations set for test in MySQL side. If you want to learn more detail 
 
 4 - Create a table and insert some data to the MySQL
 
-After all of the components are created, we need to connect MySQL side and create the table which name is shipments and insert some data:
+After all of the components are created, we need to connect MySQL side and create the table which name is chista and insert some data:
 
 <pre id="example"><code class="language-lang"  style="color: #333; background: #f8f8f8;"> 
 Table creation:
@@ -171,7 +171,7 @@ To see the messages on Kafka Topic, we need to read the messages. So when we man
 
 </code></pre>
 
-For example I’ll insert some data on the MySQL side and should see these new messages on the Kafka Topic side. After the Topic is created, we can see the new messages only. That means you couldn't see the old data in messages which were on the PostgreSQL side. Only new insert/update/delete operations (op: c, op:u and op:d) migrated to the Kafka Topic side.
+For example I’ll insert some data on the MySQL side and should see these new messages on the Kafka Topic side. After the Topic is created, we can see the new messages only. That means you couldn't see the old data in messages which were on the MySQL side. Only new insert/update/delete operations (op: c, op:u and op:d) migrated to the Kafka Topic side.
 
 
  
