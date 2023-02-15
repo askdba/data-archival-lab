@@ -133,7 +133,7 @@ CREATE TABLE `chista` (
   `id` int NOT NULL,
   `name` varchar(16) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB;
 
 Insert data into MySQL
 
