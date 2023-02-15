@@ -162,6 +162,15 @@ ORDER BY id;
 <pre id="example"><code class="language-lang"  style="color: #333; background: #f8f8f8;"> 
 
 /usr/bin/kafka-topics --list  --bootstrap-server kafka:9092
+
+you will see an output like this
+__consumer_offsets #/default Kafka topic
+my_connect_configs #/default Kafka topic
+my_connect_offsets #/default Kafka topic
+my_connect_statuses #/default Kafka topic
+mysql          
+mysql.test.chista /our kafka topic
+mysql1
 </code></pre>
 
 
