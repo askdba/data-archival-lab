@@ -140,10 +140,9 @@ insert into chista values (0,“can”);
 
 5- Create table in ClickHouse
 <pre id="example"><code class="language-lang"  style="color: #333; background: #f8f8f8;"> 
-Table creation:
+## Table creation:
 
-Table has to be manually created on ClickHouse using the ReplacingMergeTree engine. For example,
-
+## Table has to be manually created on ClickHouse using the ReplacingMergeTree engine. For example,
 
 ## ClickHouse:
 
