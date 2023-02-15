@@ -93,7 +93,7 @@ cansayin/python:latest
 
 
 
-3- To start CDC process, create Kafka Topic and apply this one on Debezium side this debezium.json 
+3- To start CDC process, create Kafka Topic and apply this one on Debezium container this debezium.json 
 
 You have to wait mysql to get up after running docker compose file. Otherwise you will get an error with the command below. Please wait a couple of minutes to run the command below.
 
@@ -242,7 +242,7 @@ debezium/postgres:14
 ihsnlky/python:latest
 </code></pre>
 
-4) To start CDC process, create Kafka Topic and apply this one on Debezium side this debezium.json
+4) To start CDC process, create Kafka Topic and apply this one on Debezium container this debezium.json
 <pre id="example"><code class="language-lang"  style="color: #333; background: #f8f8f8;">
 curl -H 'Content-Type: application/json' debezium:8083/connectors --data "@debezium.json"
 </code></pre>
