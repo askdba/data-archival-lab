@@ -62,7 +62,9 @@ Each replicated table must have one of the following replica identity: primary k
 So we decided to use Debezium MySQL image for these requirements on the docker-compose. These settings are configured by default on this version.
 
 1- Clone the GIT repo
+Create a folder name GitHub in Documents Folder and clone repo in it.
 https://github.com/ChistaDATA/Data-Archival-Project.git
+
 
 Choose MySQL
 So we should have these components
