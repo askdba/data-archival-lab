@@ -201,6 +201,10 @@ clickhouse-client
 use default
 
 select * from chista;
+
+# then optimize clickhouse table 
+
+optimize table chista;
 </code></pre
 
 <pre id="example"><code class="language-lang"  style="color: #333; background: #f8f8f8;"> 
