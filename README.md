@@ -117,8 +117,6 @@ After all of the components are created, we need to connect MySQL side and creat
 <pre id="example"><code class="language-lang"  style="color: #333; background: #f8f8f8;"> 
 Table creation:
 
-Table has to be manually created on ClickHouse using the ReplacingMergeTree engine. For example,
-
 ## MySQL:
 
 ## Connect MySQL
@@ -137,10 +135,15 @@ CREATE TABLE chista (
 
 ## Insert data into MySQL
 
-insert into chista values (47,"can");
+insert into chista values (0,“can”);
+</code></pre>
 
+5- Create table in ClickHouse
+<pre id="example"><code class="language-lang"  style="color: #333; background: #f8f8f8;"> 
+Table creation:
 
-## Just create table in clickhouse
+Table has to be manually created on ClickHouse using the ReplacingMergeTree engine. For example,
+
 
 ## ClickHouse:
 
@@ -151,10 +154,9 @@ name String
 )
 ENGINE = ReplacingMergeTree
 ORDER BY id;
-
 </code></pre>
 
-5- With this command, we created the kafka topic which name is “mysql.test.chista” To check and validate this, need to connect kafka container and list the all topics:
+6- With this command, we created the kafka topic which name is “mysql.test.chista” To check and validate this, need to connect kafka container and list the all topics:
 
 
 <pre id="example"><code class="language-lang"  style="color: #333; background: #f8f8f8;"> 
@@ -175,7 +177,7 @@ For example I’ll insert some data on the MySQL side and should see these new m
 
 
  
-6 - Connect to python container and run the following command to start chistada connector
+7 - Connect to python container and run the following command to start chistada connector
 
 <pre id="example"><code class="language-lang"  style="color: #333; background: #f8f8f8;"> 
 python3 chistadata-connector.py
@@ -184,7 +186,7 @@ python3 chistadata-connector.py
 According to operation names (op: c, op: u and op: d), python side will apply the changes to ClickHouse side. When we check the ClickHouse side, data should be see:
 
 
-7- Now you can connect to clickhouse and check the data
+8- Now you can connect to clickhouse and check the data
 <pre id="example"><code class="language-lang"  style="color: #333; background: #f8f8f8;"> 
 clickhouse-client
 
