@@ -119,9 +119,9 @@ Table creation:
 
 Table has to be manually created on ClickHouse using the ReplacingMergeTree engine. For example,
 
-MySQL:
+## MySQL:
 
-Connect MySQL
+## Connect MySQL
 
 
 mysql -u root -p
@@ -129,11 +129,11 @@ password: root
 
 use test;
 
-CREATE TABLE `chista` (
-  `id` int NOT NULL,
-  `name` varchar(16) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB;
+CREATE TABLE chista (
+     id MEDIUMINT NOT NULL AUTO_INCREMENT,
+     name CHAR(30) NOT NULL,
+     PRIMARY KEY (id)
+);
 
 ## Insert data into MySQL
 
