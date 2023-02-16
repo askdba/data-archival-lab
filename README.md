@@ -146,6 +146,8 @@ insert into chista values (0,“can”);
 
 ## ClickHouse:
 
+clickhouse-client
+
 CREATE TABLE IF NOT EXISTS default.chista
 (
 id Int32,
