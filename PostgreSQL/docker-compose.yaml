@@ -38,7 +38,7 @@ services:
     image: clickhouse/clickhouse-server:latest
     ports:
       - 9000:9000
-      - 9123:8123
+      - 8123:8123
     ulimits:
       nproc: 65535
       nofile:
@@ -62,3 +62,4 @@ services:
       - ~/Documents/GitHub/Data-Archival-Project/PostgreSQL/debezium.json:/kafka/debezium.json
   python:
     image: ihsnlky/python:latest
+    depends_on: [clickhouse]
