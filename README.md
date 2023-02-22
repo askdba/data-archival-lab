@@ -325,7 +325,7 @@ ORDER BY shipment_id;
 
 
 
-8) Python Script applies the changes to ClickHouse side automatically. If this container stops, you can start it after create the table in ClickHouse. Creating table will be automatic for ClickHouse in near time. So, we will get rid of this step.
+8) Python Script applies the changes to ClickHouse side automatically. If operation is r, it will apply bulk insert. If operation is c,u or d, this script go with as CDC. Also if this container stops, you can start it after creating the table in ClickHouse. Creating table will be automatic for ClickHouse in near time. So, we will get rid of this step.
 
 <pre id="example"><code class="language-lang"  style="color: #333; background: #f8f8f8;"> 
 python3 chistadata-connector.py
