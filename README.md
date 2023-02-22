@@ -325,7 +325,7 @@ ORDER BY shipment_id;
 
 
 
-8) Connect the Python side and run the python script
+8) Python Script applies the changes to ClickHouse side automatically. If not, just connect the Python side and run the python script
 
 <pre id="example"><code class="language-lang"  style="color: #333; background: #f8f8f8;"> 
 python3 chistadata-connector.py
