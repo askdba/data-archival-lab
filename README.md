@@ -275,6 +275,8 @@ postgres@874d7d8b47fc:~$ psql -U postgresuser -d shipment_db
 
 Then;
 <pre id="example"><code class="language-lang"  style="color: #333; background: #f8f8f8;">
+\c shipment_db
+
 CREATE TABLE IF NOT EXISTS shipments
 (
     shipment_id bigint NOT NULL,
@@ -324,6 +326,14 @@ ORDER BY shipment_id;
 </code></pre>
 
 
+ -- optional --
+But maybe you want to use MergeTree table according to your scenario, if so, you should apply a command on source table side.
+
+In postgresql:
+\c shipment_db
+ALTER TABLE shipmets REPLICA IDENTITY FULL;
+
+-- optional --
 
 8) Python Script applies the changes to ClickHouse side automatically. If operation is r, it will apply bulk insert. If operation is c,u or d, this script go with as CDC. Also if this container stops, you can start it after creating the table in ClickHouse. Creating table will be automatic for ClickHouse in near time. So, we will get rid of this step.
 
