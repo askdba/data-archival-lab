@@ -327,6 +327,8 @@ ORDER BY shipment_id;
 
 
  -- optional --
+ 
+
 But maybe you want to use MergeTree table according to your scenario, if so, you should apply a command on source table side.
 
 In postgresql:
