@@ -62,4 +62,4 @@ services:
     volumes:
       - ~/Documents/GitHub/Data-Archival-Project/MySQL/debezium.json:/kafka/debezium.json
   python:
-    image: cansayin/chistadataconnector:latest
+    image: cansayin/python:latest
