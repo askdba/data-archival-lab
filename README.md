@@ -215,6 +215,8 @@ optimize table chista;
 
 # POSTGRESQL TO CLICKHOUSE 
 
+Firstly you have to clone this repo in $HOME/Documents/GitHub
+
 PostgreSQL Implementation:
 Requirements
 The wal_level setting must have a logical value and max_replication_slots parameter must have a value at least 2 in the PostgreSQL config file. 
@@ -258,14 +260,7 @@ debezium/postgres:14
 ihsnlky/python:latest
 </code></pre>
 
-4) To start CDC process, create Kafka Topic and apply this one on Debezium container this debezium.json
-<pre id="example"><code class="language-lang"  style="color: #333; background: #f8f8f8;">
-curl -H 'Content-Type: application/json' debezium:8083/connectors --data "@debezium.json"
-</code></pre>
-
-All configurations set for shipment_db in PostgreSQL side. If you want to learn more detail about postgreSQL information, or if you want to migrate another table to Kafka, you can edit the debezium.json file in the Debezium container. If necessary, we can use the “*” option to migrate all tables instead of one table name.
-
-5) Create a table and insert some data to the PostgreSQL
+4) Create a table and insert some data to the PostgreSQL
 
 After all of the components are created, we need to connect PostgreSQL side and create the table which name is shipments and insert some data: 
 <pre id="example"><code class="language-lang"  style="color: #333; background: #f8f8f8;">
@@ -288,6 +283,14 @@ CREATE TABLE IF NOT EXISTS shipments
 
 INSERT INTO shipments values (30500,10500,'2021-01-21','COMPLETED');
 </code></pre>
+5)  To start CDC process, create Kafka Topic and apply this one on Debezium container this debezium.json
+<pre id="example"><code class="language-lang"  style="color: #333; background: #f8f8f8;">
+curl -H 'Content-Type: application/json' debezium:8083/connectors --data "@debezium.json"
+</code></pre>
+
+All configurations set for shipment_db in PostgreSQL side. If you want to learn more detail about postgreSQL information, or if you want to migrate another table to Kafka, you can edit the debezium.json file in the Debezium container. If necessary, we can use the “*” option to migrate all tables instead of one table name.
+
+
 6) Checking the Kafka Topic to have messages
 
 So we can connect the Kafka container now:
