@@ -2,6 +2,7 @@
   "name": "mysql-connector-1",
   "config": {
     "connector.class": "io.debezium.connector.mysql.MySqlConnector",
+    "tombstones.on.delete": "false",
     "snapshot.locking.mode": "none",
     "tasks.max": "1",
     "database.whitelist": "test",
