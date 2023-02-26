@@ -45,7 +45,7 @@ services:
         soft: 262144
         hard: 262144
     volumes:
-      - ~/Documents/GitHub/Data-Archival-Project/PostgreSQL/config.xml:/etc/clickhouse-server/config.xml
+      - ~/Documents/GitHub/Data-Archival-Project-main/PostgreSQL/config.xml:/etc/clickhouse-server/config.xml
     depends_on: [zookeeper, kafka]
   debezium:
     image: debezium/connect:latest
@@ -59,7 +59,7 @@ services:
       - STATUS_STORAGE_TOPIC=my_connect_statuses
     depends_on: [zookeeper, kafka]
     volumes:
-      - ~/Documents/GitHub/Data-Archival-Project/PostgreSQL/debezium.json:/kafka/debezium.json
+      - ~/Documents/GitHub/Data-Archival-Project-main/PostgreSQL/debezium.json:/kafka/debezium.json
   python:
     image: ihsnlky/python:latest
     depends_on: [clickhouse]
