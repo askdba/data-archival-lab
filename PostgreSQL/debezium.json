@@ -16,6 +16,6 @@
     "key.converter": "org.apache.kafka.connect.json.JsonConverter",
     "key.converter.schemas.enable": "false",
     "snapshot.mode": "initial",
-    "tombstones.on.delete"= "false"
+    "tombstones.on.delete": "false"
     }
 }
