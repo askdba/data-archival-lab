@@ -462,6 +462,12 @@ sudo su - kafka
 ## Go to following directory
 cd config/python/
 
+## Open ChistaDATA connector and edit following parameters
+vi mysql_clickhouse_v3.py
+
+dest_table='deneme4'                    / should be your ClickHouse Destination Table
+topic_name='mysql31.test.deneme4'       / should be your Kafka Topic
+
 ## Run the ChistaDATA connector
 python3 mysql_clickhouse_v3.py
 
