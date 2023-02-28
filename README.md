@@ -418,7 +418,9 @@ unsigned is supported
 
 1- Connect to MySQL Instance and upload your data
 
-2- Connect to Debezium Instance and edit debezium-mysql.properties file with the following parameters
+2- Connect to ClickHouse Instance and Create the same table that you will archive from MySQL on ClickHouse
+
+3- Connect to Debezium Instance and edit debezium-mysql.properties file with the following parameters
 <pre id="example"><code class="language-lang"  style="color: #333; background: #f8f8f8;"> 
 sudo su - kafka
 
@@ -440,7 +442,7 @@ kill -9 id
 /home/kafka/bin/connect-standalone.sh /home/kafka/config/connect-standalone.properties /home/kafka/config/debezium-mysql.properties
 </code></pre>
 
-3- Connect to Kafka Instance and list our topics
+4- Connect to Kafka Instance and list our topics
 <pre id="example"><code class="language-lang"  style="color: #333; background: #f8f8f8;"> 
 sudo su - kafka
 
@@ -455,7 +457,7 @@ sudo su - kafka
 
 
 
-3- Connect to Kafka Instance and list our topics
+5- Connect to Kafka Instance and list our topics
 <pre id="example"><code class="language-lang"  style="color: #333; background: #f8f8f8;"> 
 sudo su - kafka
 
@@ -473,5 +475,5 @@ python3 mysql_clickhouse_v3.py
 
 </code></pre>
 
-4- Go to ClickHouse and check your data 
+6- Go to ClickHouse and check your data 
 
