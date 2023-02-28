@@ -222,7 +222,7 @@ optimize table chista;
 </code></pre
 
 <pre id="example"><code class="language-lang"  style="color: #333; background: #f8f8f8;"> 
-------------------
+---------------
 </code></pre>
 
 # POSTGRESQL TO CLICKHOUSE 
@@ -554,7 +554,12 @@ CREATE TABLE landed(
   record_status char(1));
 </code></pre>
 
+
+Then load to the PostgreSQL `landed` table
+
+<pre id="example"><code class="language-lang"  style="color: #333; background: #f8f8f8;"> 
 COPY landed FROM '/data2/price/pp-complete.csv' with (format csv, encoding 'win1252', header false, null '', quote '"', force_null (postcode, saon, paon, street, locality, city, district));
+</code></pre>
 
 2- Connect to ClickHouse Instance and Create the same table that you will archive from PostgreSQL to ClickHouse like:
 
@@ -580,7 +585,6 @@ CREATE TABLE default.kafka_table
 )
 ENGINE = ReplacingMergeTree
 ORDER BY transaction
-
 </code></pre>
 
 3- Connect to Debezium Instance and edit debezium.properties file with the following parameters
@@ -590,9 +594,10 @@ cd config/
 
 vi debezium.properties
 
+<pre id="example"><code class="language-lang"  style="color: #333; background: #f8f8f8;"> 
 table.include.list = public.landed         /enter your Postgresql source table name
 topic.prefix = twentyseven       				/ enter a topic name you want
-
+</code></pre>
 
 # Check current running Debezium processes with the following command (you can run only one Debezium Process with port 8083)
 # if there is a running process you can kill it with;
@@ -603,6 +608,7 @@ kill $(lsof -t -i :8083)
 
 
 4- ( Optinal ) Connect to Kafka Instance and list our topics
+
 sudo su - kafka
 
 ## List Topics
