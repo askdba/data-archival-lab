@@ -417,7 +417,7 @@ Enum
 
 Auto Incremant is Supported
 Unsigned is Supported
-
+</code></pre>
 </code></pre>
 
 1- Connect to MySQL Instance and upload your data
