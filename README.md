@@ -425,23 +425,28 @@ Unsigned is Supported
 2- Connect to ClickHouse Instance and Create the same table that you will archive from MySQL on ClickHouse
 
 3- Connect to Debezium Instance and edit debezium-mysql.properties file with the following parameters
-<pre id="example"><code class="language-lang"  style="color: #333; background: #f8f8f8;"> 
 sudo su - kafka
 
 ## go to Debezium file and edit the following parameter name
 cd config/
 
-vi debezium-mysql.properties
+<pre id="example"><code class="language-lang"  style="color: #333; background: #f8f8f8;"> 
 
+vi debezium-mysql.properties
+</code></pre>
 topic.prefix = topicName           / enter a topic name you want
 database.whitelist = test          /enter your MySQL source database name
 
+<pre id="example"><code class="language-lang"  style="color: #333; background: #f8f8f8;"> 
 
 # Check current running Debezium processes with the following command (you can run only one Debezium Process with port 8083)
 lsof -i tcp:8083
+</code></pre>
+
 # if there is a running process you can kill it with;
 kill -9 id
 
+<pre id="example"><code class="language-lang"  style="color: #333; background: #f8f8f8;"> 
 ## Then start Debezium
 /home/kafka/bin/connect-standalone.sh /home/kafka/config/connect-standalone.properties /home/kafka/config/debezium-mysql.properties
 </code></pre>
@@ -449,6 +454,7 @@ kill -9 id
 4- ( Optinal ) Connect to Kafka Instance and list our topics
 <pre id="example"><code class="language-lang"  style="color: #333; background: #f8f8f8;"> 
 sudo su - kafka
+</code></pre>
 
 <pre id="example"><code class="language-lang"  style="color: #333; background: #f8f8f8;"> 
 ## List Topics
