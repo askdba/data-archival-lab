@@ -446,7 +446,7 @@ kill -9 id
 /home/kafka/bin/connect-standalone.sh /home/kafka/config/connect-standalone.properties /home/kafka/config/debezium-mysql.properties
 </code></pre>
 
-4- ( Optinal )Connect to Kafka Instance and list our topics
+4- ( Optinal ) Connect to Kafka Instance and list our topics
 <pre id="example"><code class="language-lang"  style="color: #333; background: #f8f8f8;"> 
 sudo su - kafka
 
