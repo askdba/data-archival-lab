@@ -457,7 +457,7 @@ sudo su - kafka
 /home/kafka/bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic topicName.databaseName.tableName --from-beginning
 
 ## List you current offset with the following command. Edit your topic name
-kafka-consumer-groups.sh --bootstrap-server localhost:9092 --describe --group "yourTopicName-group
+kafka-consumer-groups.sh --bootstrap-server localhost:9092 --describe --group yourTopicName-group
 
 </code></pre>
 
