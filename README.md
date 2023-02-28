@@ -498,6 +498,8 @@ python3 mysql_clickhouse_v3.py
 **EC2 Version - PostgreSQL**
 
 ### Supported Data Types
+
+<pre id="example"><code class="language-lang"  style="color: #333; background: #f8f8f8;"> 
 uuid
 Numeric
 Boolean
@@ -513,18 +515,24 @@ Double
 String
 Null
 Auto Incremant is Supported
+</code></pre>
 
+
+<pre id="example"><code class="language-lang"  style="color: #333; background: #f8f8f8;"> 
 PostgreSQL/MySQL: 35.176.232.74 
 Kafka/Python: 3.10.82.187 
 ClickHouse: 18.134.203.239
 PostgreSQL table: public.landed
 Kafka topic: twentyseven
 Kafka group: twentyseven.public.landed-group
+</code></pre>
+
 
 All of scenario will be processed through these examples.
 
 1- Connect to Postgresql Instance and load your data ie.
 
+<pre id="example"><code class="language-lang"  style="color: #333; background: #f8f8f8;"> 
 \c price
 
 CREATE TABLE landed(
@@ -544,11 +552,13 @@ CREATE TABLE landed(
   county text,
   ppd_category_type char(1),
   record_status char(1));
+</code></pre>
 
 COPY landed FROM '/data2/price/pp-complete.csv' with (format csv, encoding 'win1252', header false, null '', quote '"', force_null (postcode, saon, paon, street, locality, city, district));
 
 2- Connect to ClickHouse Instance and Create the same table that you will archive from PostgreSQL to ClickHouse like:
 
+<pre id="example"><code class="language-lang"  style="color: #333; background: #f8f8f8;"> 
 CREATE TABLE default.kafka_table
 (
     `transaction` UUID,
@@ -570,6 +580,8 @@ CREATE TABLE default.kafka_table
 )
 ENGINE = ReplacingMergeTree
 ORDER BY transaction
+
+</code></pre>
 
 3- Connect to Debezium Instance and edit debezium.properties file with the following parameters
  
