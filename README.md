@@ -427,7 +427,7 @@ Unsigned is Supported
 3- Connect to Debezium Instance and edit debezium-mysql.properties file with the following parameters
 sudo su - kafka
 
-## go to Debezium file and edit the following parameter name
+go to Debezium file and edit the following parameter name
 cd config/
 
 <pre id="example"><code class="language-lang"  style="color: #333; background: #f8f8f8;"> 
@@ -437,16 +437,16 @@ vi debezium-mysql.properties
 topic.prefix = topicName           / enter a topic name you want
 database.whitelist = test          /enter your MySQL source database name
 
-# Check current running Debezium processes with the following command (you can run only one Debezium Process with port 8083)
+Check current running Debezium processes with the following command (you can run only one Debezium Process with port 8083)
 
 <pre id="example"><code class="language-lang"  style="color: #333; background: #f8f8f8;"> 
 lsof -i tcp:8083
 </code></pre>
 
-# if there is a running process you can kill it with;
+if there is a running process you can kill it with;
 kill -9 id
 
-## Then start Debezium
+Then start Debezium
 <pre id="example"><code class="language-lang"  style="color: #333; background: #f8f8f8;"> 
 /home/kafka/bin/connect-standalone.sh /home/kafka/config/connect-standalone.properties /home/kafka/config/debezium-mysql.properties
 </code></pre>
@@ -456,17 +456,17 @@ kill -9 id
 sudo su - kafka
 </code></pre>
 
-## List Topics
+List Topics
 <pre id="example"><code class="language-lang"  style="color: #333; background: #f8f8f8;"> 
 /home/kafka/bin/kafka-topics.sh --list  --bootstrap-server localhost:9092
 </code></pre>
 
-## Edit following command with your current topic name and run the query if you like to list data coming from MySQL 
+Edit following command with your current topic name and run the query if you like to list data coming from MySQL 
 <pre id="example"><code class="language-lang"  style="color: #333; background: #f8f8f8;"> 
 /home/kafka/bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic topicName.databaseName.tableName --from-beginning
 </code></pre>
 
-## List you current offset with the following command. Edit your topic name
+List you current offset with the following command. Edit your topic name
 <pre id="example"><code class="language-lang"  style="color: #333; background: #f8f8f8;"> 
 kafka-consumer-groups.sh --bootstrap-server localhost:9092 --describe --group "yourTopicName-group
 </code></pre>
@@ -475,13 +475,13 @@ kafka-consumer-groups.sh --bootstrap-server localhost:9092 --describe --group "y
 
 5- ChistaDATA connector Settings
 
-## Connect to Kafka Instance
+Connect to Kafka Instance
 sudo su - kafka
 
-## Go to following directory
+Go to following directory
 cd config/python/
 
-## Open ChistaDATA connector and edit following parameters
+Open ChistaDATA connector and edit following parameters
 <pre id="example"><code class="language-lang"  style="color: #333; background: #f8f8f8;"> 
 vi mysql_clickhouse_v3.py
 </code></pre>
@@ -489,7 +489,7 @@ vi mysql_clickhouse_v3.py
 dest_table='clickhouse_table'                    / should be your ClickHouse Destination Table
 topic_name='mysql.database.table'                / should be your Kafka Topic
 
-## Run the ChistaDATA connector
+Run the ChistaDATA connector
 <pre id="example"><code class="language-lang"  style="color: #333; background: #f8f8f8;"> 
 python3 mysql_clickhouse_v3.py
 </code></pre>
