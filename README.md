@@ -530,7 +530,7 @@ Kafka group: twentyseven.public.landed-group
 
 All of scenario will be processed through these examples.
 
-1- Connect to Postgresql Instance and load your data ie.
+1- Connect to Postgresql Instance and load your data like below:
 
 <pre id="example"><code class="language-lang"  style="color: #333; background: #f8f8f8;"> 
 \c price
@@ -564,6 +564,8 @@ COPY landed FROM '/data2/price/pp-complete.csv' with (format csv, encoding 'win1
 2- Connect to ClickHouse Instance and Create the same table that you will archive from PostgreSQL to ClickHouse like:
 
 <pre id="example"><code class="language-lang"  style="color: #333; background: #f8f8f8;"> 
+clickhouse-client --password 192837
+
 CREATE TABLE default.kafka_table
 (
     `transaction` UUID,
@@ -599,26 +601,28 @@ table.include.list = public.landed         /enter your Postgresql source table n
 topic.prefix = twentyseven       				/ enter a topic name you want
 </code></pre>
 
-# Check current running Debezium processes with the following command (you can run only one Debezium Process with port 8083)
-# if there is a running process you can kill it with;
-kill $(lsof -t -i :8083)
-
-## Then start Debezium
-/home/kafka/bin/connect-standalone.sh /home/kafka/config/connect-standalone.properties /home/kafka/config/debezium.properties
-
-
-4- ( Optinal ) Connect to Kafka Instance and list our topics (with kafka user)
+Check current running Debezium processes with the following command (you can run only one Debezium Process with port 8083). If there is a running process you can kill it with;
 
 <pre id="example"><code class="language-lang"  style="color: #333; background: #f8f8f8;"> 
-## List Topics
+kill $(lsof -t -i :8083)
+</code></pre>
+
+Then start Debezium
+<pre id="example"><code class="language-lang"  style="color: #333; background: #f8f8f8;"> 
+/home/kafka/bin/connect-standalone.sh /home/kafka/config/connect-standalone.properties /home/kafka/config/debezium.properties
+</code></pre>
+
+4- (Optinal) Connect to Kafka Instance and list our topics (with kafka user)
+
+<pre id="example"><code class="language-lang"  style="color: #333; background: #f8f8f8;"> 
+List Topics
 /home/kafka/bin/kafka-topics.sh --list  --bootstrap-server localhost:9092
 
-## Edit following command with your current topic name and run the query if you like to list data coming from PostgreSQL
+Edit following command with your current topic name and run the query if you like to list data coming from PostgreSQL
 /home/kafka/bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic twentyseven.public.landed --from-beginning
 
-## List you current offset with the following command. Edit your topic name
+List you current offset with the following command. Edit your topic name
 kafka-consumer-groups.sh --bootstrap-server localhost:9092 --describe --group twentyseven.public.landed-group
-
 </code</pre> 
 
 5- Running connector and its settings (with kafka user)
