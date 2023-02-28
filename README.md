@@ -446,16 +446,18 @@ kill -9 id
 /home/kafka/bin/connect-standalone.sh /home/kafka/config/connect-standalone.properties /home/kafka/config/debezium-mysql.properties
 </code></pre>
 
-4- Connect to Kafka Instance and list our topics
+4- ( Optinal )Connect to Kafka Instance and list our topics
 <pre id="example"><code class="language-lang"  style="color: #333; background: #f8f8f8;"> 
 sudo su - kafka
 
-## ( Optinal )List Topics
+## List Topics
 /home/kafka/bin/kafka-topics.sh --list  --bootstrap-server localhost:9092
 
-## ( Optinal ) Edit following command with your current topic name and run the query if you like to list data coming from MySQL 
+## Edit following command with your current topic name and run the query if you like to list data coming from MySQL 
 /home/kafka/bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic topicName.databaseName.tableName --from-beginning
 
+## List you current offset with the following command. Edit your topic name
+kafka-consumer-groups.sh --bootstrap-server localhost:9092 --describe --group "yourTopicName-group
 
 </code></pre>
 
