@@ -463,8 +463,9 @@ kafka-consumer-groups.sh --bootstrap-server localhost:9092 --describe --group "y
 
 
 
-5- Connect to Kafka Instance and list our topics
+5- ChistaDATA connector Settings-
 <pre id="example"><code class="language-lang"  style="color: #333; background: #f8f8f8;"> 
+## Connect to Kafka Instance
 sudo su - kafka
 
 ## Go to following directory
@@ -473,8 +474,8 @@ cd config/python/
 ## Open ChistaDATA connector and edit following parameters
 vi mysql_clickhouse_v3.py
 
-dest_table='deneme4'                    / should be your ClickHouse Destination Table
-topic_name='mysql31.test.deneme4'       / should be your Kafka Topic
+dest_table='clickhouse_table'                    / should be your ClickHouse Destination Table
+topic_name='mysql.database.table'                / should be your Kafka Topic
 
 ## Run the ChistaDATA connector
 python3 mysql_clickhouse_v3.py
