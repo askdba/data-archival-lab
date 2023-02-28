@@ -428,13 +428,13 @@ unsigned is supported
 <pre id="example"><code class="language-lang"  style="color: #333; background: #f8f8f8;"> 
 sudo su - kafka
 
-## edit the following parameter name
+## go to Debezium file and edit the following parameter name
 cd config/
 
 vi debezium-mysql.properties
 
-topic.prefix = topicName
-database.whitelist = test
+topic.prefix = topicName           / enter a topic name you want
+database.whitelist = test          /enter your MySQL source database name
 
 
 # Check current running Debezium processes with the following command (you can run only one Debezium Process with port 8083)
