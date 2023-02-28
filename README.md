@@ -607,10 +607,9 @@ kill $(lsof -t -i :8083)
 /home/kafka/bin/connect-standalone.sh /home/kafka/config/connect-standalone.properties /home/kafka/config/debezium.properties
 
 
-4- ( Optinal ) Connect to Kafka Instance and list our topics
+4- ( Optinal ) Connect to Kafka Instance and list our topics (with kafka user)
 
-sudo su - kafka
-
+<pre id="example"><code class="language-lang"  style="color: #333; background: #f8f8f8;"> 
 ## List Topics
 /home/kafka/bin/kafka-topics.sh --list  --bootstrap-server localhost:9092
 
@@ -619,22 +618,21 @@ sudo su - kafka
 
 ## List you current offset with the following command. Edit your topic name
 kafka-consumer-groups.sh --bootstrap-server localhost:9092 --describe --group twentyseven.public.landed-group
+</code</pre> 
 
-5- ChistaDATA connector Settings
+5- Running connector and its settings (with kafka user)
  
-## Connect to Kafka Instance
-sudo su - kafka
-
-## Go to following directory
+<pre id="example"><code class="language-lang"  style="color: #333; background: #f8f8f8;"> 
 cd config/python/
-
-## Open ChistaDATA connector and edit following parameters
 vi postgre_clickhouse_v3.py
 
 dest_table='kafka_table'                        / should be your ClickHouse Destination Table
 topic_name='postgresql.public.table'                / should be your Kafka Topic
+</code></pre>
 
+<pre id="example"><code class="language-lang"  style="color: #333; background: #f8f8f8;"> 
 ## Run the ChistaDATA connector
 python3 postgre_clickhouse_v3.py
+</code></pre>
 
 6- Go to ClickHouse and check your data
