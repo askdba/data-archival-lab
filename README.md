@@ -493,12 +493,11 @@ python3 mysql_clickhouse_v3.py
 
 
 
-</code></pre>
+<pre id="example"><code class="language-lang"  style="color: #333; background: #f8f8f8;"> 
 
 EC2 Version - PostgreSQL
 
-<pre id="example"><code class="language-lang"  style="color: #333; background: #f8f8f8;"> 
-
+</code></pre>
 
 ### Supported Data Types
 uuid
@@ -514,6 +513,7 @@ Text
 Float
 Double
 String
+Null
 Auto Incremant is Supported
 
 PostgreSQL/MySQL: 35.176.232.74 
