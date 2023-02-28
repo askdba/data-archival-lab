@@ -486,9 +486,10 @@ Open ChistaDATA connector and edit following parameters
 vi mysql_clickhouse_v3.py
 </code></pre>
 
+<pre id="example"><code class="language-lang"  style="color: #333; background: #f8f8f8;"> 
 dest_table='clickhouse_table'                    / should be your ClickHouse Destination Table
 topic_name='mysql.database.table'                / should be your Kafka Topic
-
+</code></pre>
 Run the ChistaDATA connector
 <pre id="example"><code class="language-lang"  style="color: #333; background: #f8f8f8;"> 
 python3 mysql_clickhouse_v3.py
