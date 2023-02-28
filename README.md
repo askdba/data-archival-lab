@@ -450,21 +450,24 @@ kill -9 id
 <pre id="example"><code class="language-lang"  style="color: #333; background: #f8f8f8;"> 
 sudo su - kafka
 
+<pre id="example"><code class="language-lang"  style="color: #333; background: #f8f8f8;"> 
 ## List Topics
 /home/kafka/bin/kafka-topics.sh --list  --bootstrap-server localhost:9092
-
+</code></pre>
+<pre id="example"><code class="language-lang"  style="color: #333; background: #f8f8f8;"> 
 ## Edit following command with your current topic name and run the query if you like to list data coming from MySQL 
 /home/kafka/bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic topicName.databaseName.tableName --from-beginning
+</code></pre>
+<pre id="example"><code class="language-lang"  style="color: #333; background: #f8f8f8;"> 
 
 ## List you current offset with the following command. Edit your topic name
 kafka-consumer-groups.sh --bootstrap-server localhost:9092 --describe --group "yourTopicName-group
-
 </code></pre>
 
 
 
 5- ChistaDATA connector Settings
-<pre id="example"><code class="language-lang"  style="color: #333; background: #f8f8f8;"> 
+
 ## Connect to Kafka Instance
 sudo su - kafka
 
@@ -472,15 +475,20 @@ sudo su - kafka
 cd config/python/
 
 ## Open ChistaDATA connector and edit following parameters
+<pre id="example"><code class="language-lang"  style="color: #333; background: #f8f8f8;"> 
 vi mysql_clickhouse_v3.py
+</code></pre>
 
 dest_table='clickhouse_table'                    / should be your ClickHouse Destination Table
 topic_name='mysql.database.table'                / should be your Kafka Topic
 
+<pre id="example"><code class="language-lang"  style="color: #333; background: #f8f8f8;"> 
+
 ## Run the ChistaDATA connector
 python3 mysql_clickhouse_v3.py
-
 </code></pre>
+
+
 
 6- Go to ClickHouse and check your data 
 
@@ -489,13 +497,7 @@ python3 mysql_clickhouse_v3.py
 
 
 
-
-
-
-
-
-
-**EC2 Version - PostgreSQL**
+# EC2 Version - PostgreSQL
 
 ### Supported Data Types
 
