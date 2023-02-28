@@ -618,6 +618,7 @@ kill $(lsof -t -i :8083)
 
 ## List you current offset with the following command. Edit your topic name
 kafka-consumer-groups.sh --bootstrap-server localhost:9092 --describe --group twentyseven.public.landed-group
+
 </code</pre> 
 
 5- Running connector and its settings (with kafka user)
