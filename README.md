@@ -400,6 +400,8 @@ delete from $psql_table where $primary_key not in ( select $primary_key from $ps
 
 # EC2 Version - MySQL
 
+<pre id="example"><code class="language-lang"  style="color: #333; background: #f8f8f8;"> 
+
 ### Supported Data Types
 int
 bigInt
@@ -415,6 +417,8 @@ enum
 
 auto incremant is supported
 unsigned is supported
+
+</code></pre>
 
 1- Connect to MySQL Instance and upload your data
 
