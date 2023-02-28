@@ -457,7 +457,7 @@ sudo su - kafka
 /home/kafka/bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic topicName.databaseName.tableName --from-beginning
 
 ## List you current offset with the following command. Edit your topic name
-kafka-consumer-groups.sh --bootstrap-server localhost:9092 --describe --group yourTopicName-group
+kafka-consumer-groups.sh --bootstrap-server localhost:9092 --describe --group "yourTopicName-group
 
 </code></pre>
 
@@ -493,11 +493,9 @@ python3 mysql_clickhouse_v3.py
 
 
 
-<pre id="example"><code class="language-lang"  style="color: #333; background: #f8f8f8;"> 
 
-EC2 Version - PostgreSQL
 
-</code></pre>
+**EC2 Version - PostgreSQL**
 
 ### Supported Data Types
 uuid
@@ -519,6 +517,11 @@ Auto Incremant is Supported
 PostgreSQL/MySQL: 35.176.232.74 
 Kafka/Python: 3.10.82.187 
 ClickHouse: 18.134.203.239
+PostgreSQL table: public.landed
+Kafka topic: twentyseven
+Kafka group: twentyseven.public.landed-group
+
+All of scenario will be processed through these examples.
 
 1- Connect to Postgresql Instance and load your data ie.
 
@@ -542,7 +545,7 @@ CREATE TABLE landed(
   ppd_category_type char(1),
   record_status char(1));
 
-  COPY landed FROM '/data2/price/pp-complete.csv' with (format csv, encoding 'win1252', header false, null '', quote '"', force_null (postcode, saon, paon, street, locality, city, district));
+COPY landed FROM '/data2/price/pp-complete.csv' with (format csv, encoding 'win1252', header false, null '', quote '"', force_null (postcode, saon, paon, street, locality, city, district));
 
 2- Connect to ClickHouse Instance and Create the same table that you will archive from PostgreSQL to ClickHouse like:
 
@@ -568,7 +571,6 @@ CREATE TABLE default.kafka_table
 ENGINE = ReplacingMergeTree
 ORDER BY transaction
 
-
 3- Connect to Debezium Instance and edit debezium.properties file with the following parameters
  
 sudo su - kafka
@@ -583,7 +585,6 @@ topic.prefix = twentyseven       				/ enter a topic name you want
 # Check current running Debezium processes with the following command (you can run only one Debezium Process with port 8083)
 # if there is a running process you can kill it with;
 kill $(lsof -t -i :8083)
-
 
 ## Then start Debezium
 /home/kafka/bin/connect-standalone.sh /home/kafka/config/connect-standalone.properties /home/kafka/config/debezium.properties
@@ -612,7 +613,7 @@ cd config/python/
 ## Open ChistaDATA connector and edit following parameters
 vi postgre_clickhouse_v3.py
 
-dest_table='clickhouse_table'                        / should be your ClickHouse Destination Table
+dest_table='kafka_table'                        / should be your ClickHouse Destination Table
 topic_name='postgresql.public.table'                / should be your Kafka Topic
 
 ## Run the ChistaDATA connector
