@@ -398,6 +398,74 @@ delete from $psql_table where $primary_key not in ( select $primary_key from $ps
 </code></pre>
 
 
+# EC2 Version - MySQL
+
+### Supported Data Types
+int
+bigInt
+smallInt
+mediumInt
+vharchar
+decimal
+text
+float
+double
+date
+enum
+
+auto incremant is supported
+unsigned is supported
+
+1- Connect to MySQL Instance and upload your data
+
+2- Connect to Debezium Instance and edit debezium-mysql.properties file with the following parameters
+<pre id="example"><code class="language-lang"  style="color: #333; background: #f8f8f8;"> 
+sudo su - kafka
+
+## edit the following parameter name
+cd config/
+
+vi debezium-mysql.properties
+
+topic.prefix = topicName
+database.whitelist = test
 
 
+# Check current running Debezium processes with the following command (you can run only one Debezium Process with port 8083)
+lsof -i tcp:8083
+# if there is a running process you can kill it with;
+kill -9 id
+
+## Then start Debezium
+/home/kafka/bin/connect-standalone.sh /home/kafka/config/connect-standalone.properties /home/kafka/config/debezium-mysql.properties
+</code></pre>
+
+3- Connect to Kafka Instance and list our topics
+<pre id="example"><code class="language-lang"  style="color: #333; background: #f8f8f8;"> 
+sudo su - kafka
+
+## ( Optinal )List Topics
+/home/kafka/bin/kafka-topics.sh --list  --bootstrap-server localhost:9092
+
+## ( Optinal ) Edit following command with your current topic name and run the query if you like to list data coming from MySQL 
+/home/kafka/bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic topicName.databaseName.tableName --from-beginning
+
+
+</code></pre>
+
+
+
+3- Connect to Kafka Instance and list our topics
+<pre id="example"><code class="language-lang"  style="color: #333; background: #f8f8f8;"> 
+sudo su - kafka
+
+## Go to following directory
+cd config/python/
+
+## Run the ChistaDATA connector
+python3 mysql_clickhouse_v3.py
+
+</code></pre>
+
+4- Go to ClickHouse and check your data 
 
