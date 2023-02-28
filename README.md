@@ -403,20 +403,20 @@ delete from $psql_table where $primary_key not in ( select $primary_key from $ps
 <pre id="example"><code class="language-lang"  style="color: #333; background: #f8f8f8;"> 
 
 ### Supported Data Types
-int
-bigInt
-smallInt
-mediumInt
-vharchar
-decimal
-text
-float
-double
-date
-enum
+Int
+BigInt
+SmallInt
+MediumInt
+Vharchar
+Decimal
+Text
+Float
+Double
+Date
+Enum
 
-auto incremant is supported
-unsigned is supported
+Auto Incremant is Supported
+Unsigned is Supported
 
 </code></pre>
 
