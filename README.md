@@ -463,7 +463,7 @@ kafka-consumer-groups.sh --bootstrap-server localhost:9092 --describe --group "y
 
 
 
-5- ChistaDATA connector Settings-
+5- ChistaDATA connector Settings
 <pre id="example"><code class="language-lang"  style="color: #333; background: #f8f8f8;"> 
 ## Connect to Kafka Instance
 sudo su - kafka
