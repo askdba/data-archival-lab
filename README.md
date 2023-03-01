@@ -422,7 +422,7 @@ Unsigned is Supported
 
 1- Connect to MySQL Instance and upload your data
 
-2- Connect to ClickHouse Instance and Create the same table that you will archive from MySQL on ClickHouse
+2- Connect to ClickHouse Instance and Create the same table that you will archive from MySQL on ClickHouse. Table in the ClickHouse should be has unique primary key and should created with ReplacingMergeTree
 
 3- Connect to Debezium Instance and edit debezium-mysql.properties file with the following parameters
 sudo su - kafka
