@@ -549,7 +549,7 @@ CREATE TABLE landed_three(
   transfer_date text,
   postcode text,
   property_type char(1),
-  newly_built text,
+  newly_built boolean,
   duration char(1),
   paon text,
   saon text,
@@ -577,11 +577,11 @@ clickhouse-client --password 192837
 CREATE TABLE default.kafka_table
 (
     `transaction` UUID,
-    `price` Decimal(10, 5),
+    `price` Float,
     `transfer_date` String,
     `postcode` String,
     `property_type` String,
-    `newly_built` String,
+    `newly_built` Bool,
     `duration` String,
     `paon` String,
     `saon` String,
