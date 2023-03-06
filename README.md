@@ -549,7 +549,7 @@ CREATE TABLE landed_three(
   transfer_date text,
   postcode text,
   property_type char(1),
-  newly_built boolean,
+  newly_built text,
   duration char(1),
   paon text,
   saon text,
