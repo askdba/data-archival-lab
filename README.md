@@ -519,6 +519,7 @@ Vharchar
 Decimal
 Text
 Float
+Boolean
 Double
 String
 Null
