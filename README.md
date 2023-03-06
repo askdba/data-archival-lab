@@ -531,9 +531,9 @@ Auto Incremant is Supported
 PostgreSQL/MySQL: 35.176.232.74 
 Kafka/Python: 3.10.82.187 
 ClickHouse: 18.134.203.239
-PostgreSQL table: public.landed
-Kafka topic: twentyseven
-Kafka group: twentyseven.public.landed-group
+PostgreSQL table: public.landed_three
+Kafka topic: twenty
+Kafka group: twenty.public.landed_three-group
 </code></pre>
 
 
@@ -544,7 +544,7 @@ All of scenario will be processed through these examples.
 <pre id="example"><code class="language-lang"  style="color: #333; background: #f8f8f8;"> 
 \c price
 
-CREATE TABLE landed(
+CREATE TABLE landed_three(
   transaction uuid,
   price numeric,
   transfer_date text,
@@ -564,10 +564,10 @@ CREATE TABLE landed(
 </code></pre>
 
 
-Then load to the PostgreSQL `landed` table
+Then load to the PostgreSQL `landed_three` table
 
 <pre id="example"><code class="language-lang"  style="color: #333; background: #f8f8f8;"> 
-COPY landed FROM '/data2/price/pp-complete.csv' with (format csv, encoding 'win1252', header false, null '', quote '"', force_null (postcode, saon, paon, street, locality, city, district));
+COPY landed_three FROM '/data2/price/pp-complete.csv' with (format csv, encoding 'win1252', header false, null '', quote '"', force_null (postcode, saon, paon, street, locality, city, district));
 </code></pre>
 
 2- Connect to ClickHouse Instance and Create the same table that you will archive from PostgreSQL to ClickHouse like:
@@ -606,8 +606,8 @@ cd config/
 vi debezium.properties
 
 <pre id="example"><code class="language-lang"  style="color: #333; background: #f8f8f8;"> 
-table.include.list = public.landed         /enter your Postgresql source table name
-topic.prefix = twentyseven       				/ enter a topic name you want
+table.include.list = public.landed_three          /enter your Postgresql source table name
+topic.prefix = twenty         				/ enter a topic name you want
 </code></pre>
 
 Check current running Debezium processes with the following command (you can run only one Debezium Process with port 8083). If there is a running process you can kill it with;
@@ -638,15 +638,15 @@ kafka-consumer-groups.sh --bootstrap-server localhost:9092 --describe --group tw
  
 <pre id="example"><code class="language-lang"  style="color: #333; background: #f8f8f8;"> 
 cd config/python/
-vi postgre_clickhouse_v3.py
+vi postgresql_clickhouse_v04.py
 
 dest_table='kafka_table'                        / should be your ClickHouse Destination Table
-topic_name='postgresql.public.table'                / should be your Kafka Topic
+topic_name='twenty.public.landed_three'                / should be your Kafka Topic
 </code></pre>
 
 <pre id="example"><code class="language-lang"  style="color: #333; background: #f8f8f8;"> 
 ## Run the ChistaDATA connector
-python3 postgre_clickhouse_v3.py
+python3 postgresql_clickhouse_v04.py
 </code></pre>
 
 6- Go to ClickHouse and check your data
