@@ -511,7 +511,6 @@ python3 mysql_clickhouse_v3.py
 <pre id="example"><code class="language-lang"  style="color: #333; background: #f8f8f8;"> 
 uuid
 Numeric
-Boolean
 Int
 BigInt
 SmallInt
@@ -550,7 +549,7 @@ CREATE TABLE landed_three(
   transfer_date text,
   postcode text,
   property_type char(1),
-  newly_built boolean,
+  newly_built text,
   duration char(1),
   paon text,
   saon text,
@@ -578,7 +577,7 @@ clickhouse-client --password 192837
 CREATE TABLE default.kafka_table
 (
     `transaction` UUID,
-    `price` Float64,
+    `price` Decimal(10, 5),
     `transfer_date` String,
     `postcode` String,
     `property_type` String,
