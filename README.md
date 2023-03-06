@@ -628,10 +628,10 @@ List Topics
 /home/kafka/bin/kafka-topics.sh --list  --bootstrap-server localhost:9092
 
 Edit following command with your current topic name and run the query if you like to list data coming from PostgreSQL
-/home/kafka/bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic twentyseven.public.landed --from-beginning
+/home/kafka/bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic twenty.public.landed_three --from-beginning
 
 List you current offset with the following command. Edit your topic name
-kafka-consumer-groups.sh --bootstrap-server localhost:9092 --describe --group twentyseven.public.landed-group
+kafka-consumer-groups.sh --bootstrap-server localhost:9092 --describe --group twenty.public.landed_three-group
 </code></pre>
 
 5- Running connector and its settings (with kafka user)
