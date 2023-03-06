@@ -631,7 +631,7 @@ Edit following command with your current topic name and run the query if you lik
 
 List you current offset with the following command. Edit your topic name
 kafka-consumer-groups.sh --bootstrap-server localhost:9092 --describe --group twentyseven.public.landed-group
-</code</pre> 
+</code></pre>
 
 5- Running connector and its settings (with kafka user)
  
