@@ -63,3 +63,4 @@ services:
       - ~/Documents/GitHub/Data-Archival-Project/MySQL/debezium.json:/kafka/debezium.json
   python:
     image: cansayin/python:latest
+    command: tail -f /dev/null
