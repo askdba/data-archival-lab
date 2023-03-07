@@ -511,17 +511,16 @@ python3 mysql_clickhouse_v3.py
 <pre id="example"><code class="language-lang"  style="color: #333; background: #f8f8f8;"> 
 uuid
 Numeric
-Int
 BigInt
 SmallInt
 MediumInt
+double precision
 Vharchar
 Decimal
 Text
 Float
 Boolean
 Double
-String
 Null
 Auto Incremant is Supported
 </code></pre>
