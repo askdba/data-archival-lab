@@ -629,7 +629,7 @@ Then start Debezium
 
 <pre id="example"><code class="language-lang"  style="color: #333; background: #f8f8f8;"> 
 List Topics
-/home/kafka/bin/kafka-topics.sh --list  --bootstrap-server localhost:9092
+kafka-topics.sh --list  --bootstrap-server localhost:9092
 
 Edit following command with your current topic name and run the query if you like to list data coming from PostgreSQL
 kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic twenty.public.landed_three --from-beginning
