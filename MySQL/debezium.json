@@ -24,6 +24,8 @@
     "schema.history.internal.kafka.topic": "mysql1",
     "schema.history.internal.kafka.bootstrap.servers": "mysql-kafka-1:9092",
     "internal.key.converter.schemas.enable": "false",
-    "internal.value.converter.schemas.enable": "false"
+    "internal.value.converter.schemas.enable": "false",
+    "decimal.handling.mode": "double",
+    "time.precision.mode": "connect"
     }
 }
