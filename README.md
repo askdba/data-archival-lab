@@ -509,19 +509,23 @@ python3 mysql_clickhouse_v3.py
 ### Supported Data Types
 
 <pre id="example"><code class="language-lang"  style="color: #333; background: #f8f8f8;"> 
-uuid
-Numeric
-BigInt
-SmallInt
-MediumInt
-double precision
-Vharchar
-Decimal
-Text
-Float
-Boolean
-Double
+bigint				
+bigserial			
+boolean				
+date				
+double precision 	
+integer				
+numeric(2,0)		
+real				
+smallint			
+smallserial			
+serial				
+text				
+timestamp			
+uuid				
 Null
+Other data types will convert as String in ClickHouse.
+
 Auto Incremant is Supported
 </code></pre>
 
