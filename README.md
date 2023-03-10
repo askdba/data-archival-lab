@@ -617,7 +617,8 @@ kill $(lsof -t -i :8083)
 
 Then start Debezium
 <pre id="example"><code class="language-lang"  style="color: #333; background: #f8f8f8;"> 
-/home/kafka/bin/connect-standalone.sh /home/kafka/config/connect-standalone.properties /home/kafka/config/debezium.properties
+/home/kafka/kafka_new/kafka/bin/connect-standalone.sh /home/kafka/kafka_new/kafka/config/connect-standalone.properties /home/kafka/kafka_new/kafka/scripts/debezium.properties
+
 </code></pre>
 
 4- (Optinal) Connect to Kafka Instance and list our topics (with kafka user)
@@ -627,7 +628,7 @@ List Topics
 /home/kafka/bin/kafka-topics.sh --list  --bootstrap-server localhost:9092
 
 Edit following command with your current topic name and run the query if you like to list data coming from PostgreSQL
-/home/kafka/bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic twenty.public.landed_three --from-beginning
+kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic twenty.public.landed_three --from-beginning
 
 List you current offset with the following command. Edit your topic name
 kafka-consumer-groups.sh --bootstrap-server localhost:9092 --describe --group twenty.public.landed_three-group
@@ -645,7 +646,8 @@ topic_name='twenty.public.landed_three'                / should be your Kafka To
 
 <pre id="example"><code class="language-lang"  style="color: #333; background: #f8f8f8;"> 
 ## Run the ChistaDATA connector
-python3 postgresql_clickhouse_v04.py
+cd /home/kafka/python
+python3 postgresql_clickhouse_v05.py
 </code></pre>
 
 6- Go to ClickHouse and check your data
