@@ -641,8 +641,8 @@ kafka-consumer-groups.sh --bootstrap-server localhost:9092 --describe --group tw
 5- Running connector and its settings (with kafka user)
  
 <pre id="example"><code class="language-lang"  style="color: #333; background: #f8f8f8;"> 
-cd config/python/
-vi postgresql_clickhouse_v04.py
+cd /home/kafka/python/backup
+vi postgre_clickhouse_v5.py
 
 dest_table='kafka_table'                        / should be your ClickHouse Destination Table
 topic_name='twenty.public.landed_three'                / should be your Kafka Topic
@@ -650,8 +650,8 @@ topic_name='twenty.public.landed_three'                / should be your Kafka To
 
 <pre id="example"><code class="language-lang"  style="color: #333; background: #f8f8f8;"> 
 ## Run the ChistaDATA connector
-cd /home/kafka/python
-python3 postgresql_clickhouse_v05.py
+
+python3 postgre_clickhouse_v5.py
 </code></pre>
 
 6- Go to ClickHouse and check your data
